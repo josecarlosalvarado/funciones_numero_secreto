@@ -1,14 +1,12 @@
-from functions import play_game, lista_puntuaciones, lectura_fichero
+from functions import play_game, lista_puntuaciones, lectura_fichero, guardado_fichero
 
-scores = ...
-jugar = play_game(scores)
-print(jugar)
+scores = lectura_fichero()
+score = play_game()
+scores.append(score)
+guardado_fichero(scores)
+lista_puntuaciones(scores)
 
-lista = lista_puntuaciones(scores)
-print(lista)
 
-lectura = lectura_fichero()
-print(lectura)
 
 
 

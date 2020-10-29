@@ -3,9 +3,11 @@ import random
 import datetime
 from operator import itemgetter
 
-def play_game (scores):
+SCORE_FILE = "score_list.txt"
 
-    SCORE_FILE = "score_list.txt"
+def play_game ():
+
+    scores = lectura_fichero()
 
     secret = random.randint(1, 10)
 
@@ -20,36 +22,31 @@ def play_game (scores):
         if guess == secret:
             print("You've guessed it - congratulations! It's number " + str(secret))
             print("Attempts needed: " + str(attempts))
-            scores. append(
-                {
-
-                    "attempts": attempts,
-                    "date": str(datetime.datetime.now()),
-                    "player_name": player,
-
-                }
-            )
-            with open(SCORE_FILE, "w") as score_file:
-                score_file.write(json.dumps(scores))
             break
         elif guess > secret:
             print("Your guess is not correct... try something smaller")
         elif guess < secret:
             print("Your guess is not correct... try something bigger")
-
-
-
+    return {
+        "scores": scores,
+        "attempts": attempts,
+        "date": str(datetime.datetime.now()),
+        "player_name": player,
+    }
 
 
 def lista_puntuaciones(scores):
     for score in sorted(scores, key=itemgetter("attempts")):
         print(f"{score['attempts']} attempts on day {score['date']}, {score.get('player_name', 'Anonymous Player')}")
+
+
 def lectura_fichero():
-    SCORE_FILE = "score_list.txt"
     with open(SCORE_FILE, "r") as score_list:
         scores = json.loads(score_list.read())
+    return scores
+
+
 def guardado_fichero(scores):
-    SCORE_FILE = "score_list.txt"
     with open(SCORE_FILE, "w") as score_file:
         score_file.write(json.dumps(scores))
 
